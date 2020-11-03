@@ -6,11 +6,11 @@ void pdaClose(){
 
 void pdaDisplay(){
     std::cout       << "This function displays complete paths.\n"   \
-                    << "1. s0 -> s1\n" \
-                    << "2. s1 -> s2\n" \
-                    << "3. s2 -> s4\n" \
-                    << "4. s4 -> s0\n" \
-                    << "5. s0 -> s0\n\n";
+                    << "1. s0 -> s0\n" \
+                    << "2. s0 -> s0\n" \
+                    << "3. s0 -> s0\n" \
+                    << "4. s0 -> s1\n" \
+                    << "5. s1 -> s2\n\n";
 }
 
 void pdaExit(){
@@ -42,8 +42,8 @@ void pdaInsert(){
 }
 void pdaList(){
     std::cout \
-    << "1. aabba\n" \
-    << "2. aba\n"  \
+    << "1. aba\n" \
+    << "2. abbaa\n"  \
     << "3. aabbb\n"  \
     << "4. aaabb\n\n";
     return;
@@ -60,12 +60,12 @@ void pdaQuit(){
 void pdaRun(){
     std::cout << "Running pda\n";
     std::cout << "0. " << "[s0]aabba\n"\
-    << "1. x[s1]aabb\n"\
-    << "2. xy[s2]aab\n"\
-    << "3. xyx[s4]aa\n"\
-    << "4. xyxx[s0]a\n"\
-    << "5. xyxxy[s0]\n";
-    std::cout << "string aabba accepted in 5 transition(s)\n";
+    << "1. z[s0]aba\n"\
+    << "2. zxz[s0]ba\n"\
+    << "3. zyzxz[s0]a\n"\
+    << "4. zzyzxz[s1]\n"\
+    << "5. zzyzxz[s2]\n";
+    std::cout << "string aba accepted in 5 transition(s)\n";
     return;
 }
 void pdaSet(){
@@ -86,7 +86,7 @@ void pdaShow(){
     << "Turing Machine Name:      "<< "Prototype" << '\n'\
     << "Turing Machine Status:    "<< "Running" << '\n'\
     << "Input Strings Status:     "<< "No changes made"<< '\n' \
-    << "Current Input String:     "<< "aabba" << '\n' \
+    << "Current Input String:     "<< "aba" << '\n' \
     << "Total Transitions:        "<< "0"     << '\n';
 }
 void pdaView(){
