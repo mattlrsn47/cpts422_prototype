@@ -18,6 +18,7 @@
 #define VIEW 12
 
 // pda functions
+void pdaClose();
 void pdaDisplay();
 void pdaExit();
 void pdaHelp();

@@ -3,6 +3,7 @@
 void decipherCommand(int cNo){
     switch(cNo){
     case CLOSE:
+        pdaClose();
         break;
     case DISPLAY:
         pdaDisplay();

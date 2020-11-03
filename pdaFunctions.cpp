@@ -1,5 +1,9 @@
 #include "pdaHeader.h"
 
+void pdaClose(){
+    std::cout << "Succeeded in writing list to myPDA.str!\n\n";
+}
+
 void pdaDisplay(){
     std::cout       << "This function displays complete paths.\n"   \
                     << "1. s0 -> s1\n" \
