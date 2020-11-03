@@ -45,7 +45,9 @@ void pdaList(){
     return;
 }
 void pdaOpen(){
-    std::cout << "Opening push down automata..\n\n";
+    std::cout << "Opening push down automata..\n"\
+    << "PDA Name: myPDA\n"\
+    << "Successfully loaded!\n\n";
 }
 void pdaQuit(){
     std::cout << "Quitting push down automata.\n" \
@@ -76,6 +78,7 @@ void pdaShow(){
     << "Authors:                  "<< "Group" << '\n'\
     << "Version:                  "<< "Prototype" << '\n'\
     << "(CFG)Transitions Allowed: "<< "5" << '\n'\
+    << "(CFG)Maximum Cells:        "<< "32" << '\n'\
     << "Turing Machine Name:      "<< "Prototype" << '\n'\
     << "Turing Machine Status:    "<< "Running" << '\n'\
     << "Input Strings Status:     "<< "No changes made"<< '\n' \
