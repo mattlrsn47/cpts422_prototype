@@ -8,9 +8,8 @@ void pdaDisplay(){
     std::cout       << "This function displays complete paths.\n"   \
                     << "1. s0 -> s0\n" \
                     << "2. s0 -> s0\n" \
-                    << "3. s0 -> s0\n" \
-                    << "4. s0 -> s1\n" \
-                    << "5. s1 -> s2\n\n";
+                    << "3. s0 -> s1\n" \
+                    << "4. s1 -> s2\n\n";
 }
 
 void pdaExit(){
@@ -59,13 +58,13 @@ void pdaQuit(){
 }
 void pdaRun(){
     std::cout << "Running pda\n";
-    std::cout << "0. " << "[s0]aabba\n"\
-    << "1. z[s0]aba\n"\
-    << "2. zxz[s0]ba\n"\
-    << "3. zyzxz[s0]a\n"\
-    << "4. zzyzxz[s1]\n"\
-    << "5. zzyzxz[s2]\n";
-    std::cout << "string aba accepted in 5 transition(s)\n";
+    std::cout \
+    << "0. z[s0]aba\n"\
+    << "1. zxz[s0]ba\n"\
+    << "2. zyzxz[s0]a\n"\
+    << "3. zzyzxz[s1]\n"\
+    << "4. zzyzxz[s2]\n";
+    std::cout << "string aba accepted in 4 transition(s)\n";
     return;
 }
 void pdaSet(){
