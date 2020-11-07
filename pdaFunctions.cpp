@@ -6,10 +6,13 @@ void pdaClose(){
 
 void pdaDisplay(){
     std::cout       << "This function displays complete paths.\n"   \
-                    << "1. s0 -> s0\n" \
-                    << "2. s0 -> s0\n" \
-                    << "3. s0 -> s1\n" \
-                    << "4. s1 -> s2\n\n";
+                    << "Path1. s0->s0->s1\n" \
+                    << "Path2. s0->s0->s1->s0\n" \
+                    << "Path3. s0->s0->s1->s1\n" \
+                    << "Path4. s0->s0->s1->s1->s2\n\n";
+                
+
+                   
 }
 
 void pdaExit(){
@@ -60,10 +63,19 @@ void pdaRun(){
     std::cout << "Running pda\n";
     std::cout \
     << "0. z[s0]aba\n"\
-    << "1. zxz[s0]ba\n"\
-    << "2. zyzxz[s0]a\n"\
-    << "3. zzyzxz[s1]\n"\
-    << "4. zzyzxz[s2]\n";
+    << "1. xz[s0]ba\n"\
+    
+    << "2. yxz[s0]a\n"\
+    << "   xz[s1]a\n"\
+    
+    << "3. xyxz[s0]\n"\
+    << "   yxz[s1]\n"\
+
+    << "   \\xz[s1]\n"\
+    
+    << "4. xz[s2]\n"\
+    << "\n";
+
     std::cout << "string aba accepted in 4 transition(s)\n";
     return;
 }
@@ -113,7 +125,7 @@ void pdaView(){
     <<"s0 b Z   s1 Z\n"\
     <<"s1 a X   s1 '\'\n"\
     <<"s1 b Y   s1 '\' \n"\
-    <<"s1 '\' Z   s2 '\' \n\n"\
+    <<"s1 '\'   s2 '\' \n\n"\
 
     << "INITIAL_STATE: s0\n\n"\
 
