@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include <list>
 #define DELETE
 
 #define CLOSE 1
@@ -17,7 +18,24 @@
 #define SHOW 11
 #define VIEW 12
 
+class Transition{
+    std::string startState;
+    std::string startInput;
+    std::string startChar;
+
+    std::string endState;
+    std::string endChar;
+public:
+    Transition(std::string ss, std::string si, std::string sc, std::string es, std::string ec);
+    ~Transition();
+};
+
+
+
+
 // pda functions
+
+
 void pdaClose();
 void pdaDisplay();
 void pdaExit();

@@ -1,5 +1,44 @@
 #include "pdaHeader.h"
+#include <limits>  
 
+/******* Class functions ******/
+
+//          PDA
+class PdaObject{
+public:
+    /* definition and config */
+    std::list<std::string> stateList;                   // STATES:
+    std::list<std::string> inputAlphabetList;           // INPUT_ALPHABET:    
+    std::list<std::string> stackAlphabetList;           // STACK_ALPHABET:
+    std::list<Transition> transitionList;               // TRANSITION_FUNCTION:
+    std::string initialState;                           // INITIAL_STATE:      
+    std::string startCharacter;                         // START_CHARACTER:
+    std::list<std::string> finalStateList;              // FINAL_STATES:
+
+    std::list<std::string> inputStringList;
+    int maximumTransitions;
+    PdaObject(/* args */);
+    ~PdaObject();
+}pdaObject;
+
+PdaObject::PdaObject(/* args */){
+}
+
+PdaObject::~PdaObject(){
+}
+//          TRANSITION
+Transition::Transition(std::string ss, std::string si, std::string sc, std::string es, std::string ec){
+    startState=ss;
+    startInput=si;
+    startChar=sc;
+
+    endState=es;
+    endChar=ec;
+}
+
+Transition::~Transition(){
+}
+/*****************************/
 void pdaClose(){
     std::cout << "Succeeded in writing list to myPDA.str!\n\n";
 }
@@ -38,22 +77,50 @@ void pdaHelp(){
     return;
 }
 void pdaInsert(){
-    std::cout << "String to insert into List: aabba \n" \
-    << "Inserted aabba to list.\n\n";
+    std::string userInputString;
+    std::string line;
+    std::cout << "String to insert into list: ";
+    std::cin >> userInputString;
+    std::getline(std::cin, line);
+    for (int i = 0; i < line.length(); i++){
+        if (line[i] == ' '){
+            std::cout << "Invalid. Can only insert 1 string at a time\n\n";
+            return;
+        }
+    }
+    pdaObject.inputStringList.push_back(userInputString);
+    std::cout << userInputString << " successfully added to list!!\n\n"; 
     return;
 }
 void pdaList(){
-    std::cout \
-    << "1. aba\n" \
-    << "2. abbaa\n"  \
-    << "3. aabbb\n"  \
-    << "4. aaabb\n\n";
+    for (auto v : pdaObject.inputStringList)
+        std::cout << v << "\n";
     return;
 }
-void pdaOpen(){
-    std::cout << "Opening push down automata..\n"\
-    << "PDA Name: myPDA\n"\
-    << "Successfully loaded!\n\n";
+void pdaOpen(){ // Opens / loads fake config file
+    std::cout << "Opening config.txt....\n";
+    pdaObject.stateList = {"s0","s1","s2"};
+    pdaObject.inputAlphabetList = {"a", "b"};           
+    pdaObject.stackAlphabetList = {"X", "Y", "Z"};         
+    pdaObject.transitionList.push_back(Transition("s0","a","X","s0","XX")); //s0 a X   s0 XX
+    pdaObject.transitionList.push_back(Transition("s0","a","X","s1","X1")); //s0 a X   s1 X
+    pdaObject.transitionList.push_back(Transition("s0","a","Y","s0","XY")); //s0 a Y   s0 XY
+    pdaObject.transitionList.push_back(Transition("s0","a","Y","s1","Y"));  //s0 a Y   s1 Y
+    pdaObject.transitionList.push_back(Transition("s0","a","Z","s0","XZ")); //s0 a Z   s0 XZ
+    pdaObject.transitionList.push_back(Transition("s0","a","Z","s1","Z"));  //s0 a Z   s1 Z
+    pdaObject.transitionList.push_back(Transition("s0","b","X","s0","YX")); //s0 b X   s0 YX
+    pdaObject.transitionList.push_back(Transition("s0","b","X","s1","X"));  //s0 b X   s1 X
+    pdaObject.transitionList.push_back(Transition("s0","b","Y","s0","YY")); //s0 b Y   s0 YY
+    pdaObject.transitionList.push_back(Transition("s0","b","Y","s1","Y"));  //s0 b Y   s1 Y
+    pdaObject.transitionList.push_back(Transition("s0","b","Z","s0","YZ")); //s0 b Z   s0 YZ
+    pdaObject.transitionList.push_back(Transition("s0","b","Z","s1","Z")); //s0 b Z   s1 Z
+    pdaObject.transitionList.push_back(Transition("s1","a","X","s1","\\")); //s1 a X   s1 \'
+    pdaObject.transitionList.push_back(Transition("s1","b","Y","s1","\\")); //s1 b Y   s1 \'
+    pdaObject.transitionList.push_back(Transition("s1","\\","Z","s2","\\")); //s1 \ Z   s2 \'              
+    pdaObject.initialState = {"s0"};                          
+    pdaObject.startCharacter = "Z";                        
+    pdaObject.finalStateList = {"s2"};
+    pdaObject.maximumTransitions = 1;             
 }
 void pdaQuit(){
     std::cout << "Quitting push down automata.\n" \
@@ -80,9 +147,26 @@ void pdaRun(){
     return;
 }
 void pdaSet(){
-    std::cout \
-    << "Set the number of max transitions to: 5\n" \
-    << "Maximum transitions set to 5\n\n" ;
+    int userInputTransitions;
+    std::string line;
+    std::cout << "Number of transitions["<< pdaObject.maximumTransitions<<"]: ";
+    std::cin >> userInputTransitions;
+    std::getline(std::cin, line);
+    for (int i = 0; i < line.length(); i++){
+        if (line[i] == ' '){
+            std::cout << "Invalid. 1 number at a time\n\n";
+            return;
+        }
+    }
+    if (std::cin.fail()){
+            std::cout << "Invalid number of transitions\n\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return;
+    }
+    pdaObject.maximumTransitions = userInputTransitions;
+    std::cout << "Set maximum transitions to " << pdaObject.maximumTransitions << "\n\n";
+    return;
 }
 void pdaShow(){
     std::cout \
