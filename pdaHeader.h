@@ -19,13 +19,13 @@
 #define VIEW 12
 
 class Transition{
+public:
     std::string startState;
     std::string startInput;
     std::string startChar;
 
     std::string endState;
     std::string endChar;
-public:
     Transition(std::string ss, std::string si, std::string sc, std::string es, std::string ec);
     ~Transition();
 };
