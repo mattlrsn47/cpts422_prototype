@@ -12,7 +12,7 @@ void pdaDisplay(){
         }
         std::cout << "\n";
     } else {
-        std::cout << "No PDA is open to display!";
+        std::cout << "No PDA is open to display!\n\n";
     }
     return;
 }

@@ -126,7 +126,7 @@ void pdaInsert(){
         // check if duplicate string
         for (auto s : pdaObject.inputStringList) {
             if (s == userInputString) {
-                std::cout << "String is already in list!";
+                std::cout << "String is already in list!\n\n";
                 return;
             }
         }
@@ -148,7 +148,7 @@ void pdaList(){
         }
         std::cout << "\n";
     } else {
-        std::cout << "No PDA is open to list input strings!";
+        std::cout << "No PDA is open to list input strings!\n\n";
     }
     return;
 }
