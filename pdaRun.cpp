@@ -19,6 +19,8 @@ void pdaRun(){
         }
         
         std::cout << "Initializing...\n";
+        pdaObject.accepted = false;
+        pdaObject.rejected = false;
         pdaObject.status = RUNNING;
         pdaObject.totalTransitions = 0;
         // grab string from list by its index using an iterator
@@ -52,6 +54,7 @@ void pdaRun(){
             for (auto s : pdaObject.finalStateList) {
                 if (s == (*b).currentState) {
                     (*b).accepted = true;
+                    pdaObject.accepted = true;
                     pdaObject.status = NOT_RUNNING;
                     // YAY ACCEPTED print last instantaneous desc.
                     std::cout << "PATH " << (*b).id << std::endl;
@@ -63,6 +66,7 @@ void pdaRun(){
                     std::cout << "Input string " << pdaObject.originalInputString;
                     std::cout << " accepted in " << (*b).numTransitions;
                     std::cout << " transitions!\n\n";
+                    pdaObject.totalTransitions = (*b).numTransitions;
                     return;
                 }
             }
@@ -169,6 +173,7 @@ void pdaRun(){
     }
     if (checkIfNoTransitions == pdaObject.totalTransitions) {
         // num of transitions did not change, so all branches rejected
+        pdaObject.rejected = true;
         pdaObject.status = NOT_RUNNING;
         std::cout << "Input string " << pdaObject.originalInputString;
         std::cout << " rejected in " << pdaObject.totalTransitions;

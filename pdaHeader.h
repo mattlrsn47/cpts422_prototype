@@ -52,7 +52,6 @@ public:
 class PdaObject{
 public:
     bool open;
-    std::string uppercase(std::string s);
     /* definition file */
     std::string name;
     std::list<std::string> description;                 // possible desc.
@@ -72,6 +71,8 @@ public:
 
     /* for running */
     int status;  // 2=running, 1=not running, 0=not yet run
+    bool accepted;
+    bool rejected;
     std::string originalInputString;
     std::list<Branch> branchList;   // to track multiple paths
     int totalTransitions;

@@ -162,6 +162,7 @@ void pdaQuit(){
         } else {
             std::cout << "Quitting...\n" \
             << "Input string " << pdaObject.originalInputString << " was neither accepted nor rejected in " << pdaObject.totalTransitions << " transitions\n\n";
+            pdaObject.status = NOT_RUNNING;
         }
     } else {
         std::cout << "No PDA is open to quit!\n\n";

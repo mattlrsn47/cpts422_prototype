@@ -350,6 +350,8 @@ void pdaOpen(){
     config.close();
    
     std::cout << "\n";
+    pdaObject.accepted = false;
+    pdaObject.rejected = false;
     pdaObject.status = NOT_YET_RUN;
     pdaObject.totalTransitions = 0;    
     pdaObject.open = true;   
