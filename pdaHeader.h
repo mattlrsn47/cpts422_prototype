@@ -46,7 +46,9 @@ public:
 //          PDAOBJECT
 class PdaObject{
 public:
+    bool open;
     /* definition file */
+    std::string name;
     std::string description;                            // possible desc.
     std::list<std::string> stateList;                   // STATES:
     std::list<char> inputAlphabetList;                  // INPUT_ALPHABET:    
@@ -57,6 +59,7 @@ public:
     std::list<std::string> finalStateList;              // FINAL_STATES:
     /* string file */
     std::list<std::string> inputStringList;
+    bool stringListChanged;
     /* config file */
     int maximumTransitions;
     int maximumCharacters;
@@ -65,6 +68,7 @@ public:
     int status;  // 2=running, 1=not running, 0=not yet run
     std::string originalInputString;
     std::list<Branch> branchList;   // to track multiple paths
+    int totalTransitions;
 
     PdaObject(/* args */);
     ~PdaObject();
