@@ -18,7 +18,7 @@ void pdaClose(){
             if (inputStrings.bad()) {
                 std::cout << "Failed to write input strings to " << pdaObject.name << ".str\n";
             }
-            std::cout << "Succeeded in writing input strings to " << pdaObject.name << ".str\n\n";
+            std::cout << "Successfully wrote input strings to " << pdaObject.name << ".str\n\n";
         }
         pdaObject = PdaObject(); // reset pda object
     } else {
