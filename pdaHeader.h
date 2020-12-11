@@ -39,6 +39,7 @@ public:
     int numTransitions;
     std::string path;
     std::string stackToString(int maxChar);
+    std::string truncateInputString(int maxChar);
     Branch(int branchId, std::string cstate, std::string ris, std::stack<char> cstack, int nt, std::string p);
     ~Branch();
 };
@@ -47,9 +48,10 @@ public:
 class PdaObject{
 public:
     bool open;
+    std::string uppercase(std::string s);
     /* definition file */
     std::string name;
-    std::string description;                            // possible desc.
+    std::list<std::string> description;                 // possible desc.
     std::list<std::string> stateList;                   // STATES:
     std::list<char> inputAlphabetList;                  // INPUT_ALPHABET:    
     std::list<char> stackAlphabetList;                  // STACK_ALPHABET:
@@ -70,6 +72,8 @@ public:
     std::list<Branch> branchList;   // to track multiple paths
     int totalTransitions;
 
-    PdaObject(/* args */);
+    PdaObject();
     ~PdaObject();
-}pdaObject;
+};
+
+extern PdaObject pdaObject;
