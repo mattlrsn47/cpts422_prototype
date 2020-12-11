@@ -1,12 +1,24 @@
 #include "pdaHeader.h"
 
 void pdaClose(){
-    std::cout << "WORK IN PROGRESS.....\n";
     if (pdaObject.open) {
         std::cout << "Closing PDA....\n\n";
-        /* IF CHANGES MADE TO INPUT STRING LIST, WRITE TO FILE */
+        /* if changes made to input string list, write to file */
         if (pdaObject.stringListChanged) {
-            // write to file
+            std::ofstream inputStrings(pdaObject.name + ".str");
+            int count = 1;
+            for (auto s : pdaObject.inputStringList) {
+                inputStrings << s;
+                count++;
+                if (count <= pdaObject.inputStringList.size()) {
+                    inputStrings << std::endl;
+                }
+            }
+            inputStrings.close();
+            if (inputStrings.bad()) {
+                std::cout << "Failed to write input strings to " << pdaObject.name << ".str\n";
+            }
+            std::cout << "Succeeded in writing input strings to " << pdaObject.name << ".str\n\n";
         }
         pdaObject = PdaObject(); // reset pda object
     } else {
