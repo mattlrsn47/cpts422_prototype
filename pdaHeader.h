@@ -38,7 +38,7 @@ public:
     bool rejected; // starts as false
     int numTransitions;
     std::string path;
-    std::string stackToString();
+    std::string stackToString(int maxChar);
     Branch(int branchId, std::string cstate, std::string ris, std::stack<char> cstack, int nt, std::string p);
     ~Branch();
 };

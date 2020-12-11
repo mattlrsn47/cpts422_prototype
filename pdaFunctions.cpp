@@ -11,6 +11,15 @@ PdaObject::PdaObject(/* args */){
 PdaObject::~PdaObject(){
 }
 
+// void PdaObject::updateBranch(Branch branch, std::string cstate, std::string ris, std::stack<char> cstack, int nt, std::string p){
+//     branch.currentState = cstate;
+//     branch.remainingInputString = ris;
+//     branch.currentStack = cstack;
+//     branch.numTransitions = nt;
+//     branch.path = p;
+//     return;
+// }
+
 //          BRANCH
 Branch::Branch(int branchID, std::string cstate, std::string ris, std::stack<char> cstack, int nt, std::string p) {
     id = branchID;
@@ -28,12 +37,13 @@ Branch::~Branch(){
 
 }
 
-std::string Branch::stackToString(){
+std::string Branch::stackToString(int maxChar){
     std::stack<char> temp = currentStack;
     std::string stringStack;
-    while (!temp.empty()) {
+    while (!temp.empty() && maxChar != 0) {
         stringStack.push_back(temp.top());
         temp.pop();
+        maxChar--;
     }
     return stringStack;
 }
@@ -140,7 +150,8 @@ void pdaOpen(){ // Opens / loads fake config file
     pdaObject.initialState = "s0";                          
     pdaObject.startCharacter = 'Z';                        
     pdaObject.finalStateList = {"s2"};
-    pdaObject.maximumTransitions = 1;      
+    pdaObject.maximumTransitions = 1;
+    pdaObject.maximumCharacters = 2;      
     pdaObject.status = NOT_YET_RUN;       
 }
 void pdaQuit(){
@@ -149,8 +160,6 @@ void pdaQuit(){
     << "Input string aabba was neither accepted nor rejected in 5 transitions\n\n";
 }
 void pdaRun(){
-    std::cout << "WORK IN PROGRESS.....\n";
-
     if (pdaObject.status != RUNNING) {
         // not already running, so initialize
         // get input string number
@@ -182,39 +191,42 @@ void pdaRun(){
         std::cout << (*branchItr).numTransitions << ". (";
         std::cout << (*branchItr).currentState << ", ";
         std::cout << (*branchItr).remainingInputString << ", ";
-        std::cout << (*branchItr).stackToString() << ")\n";
+        std::cout << (*branchItr).stackToString(pdaObject.maximumCharacters) << ")\n\n";
     }
     // do number of transtitions indicated by maximumTransitions on each branch
     int ifThisIsStillZeroAllRejected = 0;
-    for (auto b : pdaObject.branchList) {
+    std::list<Branch>::iterator b;
+
+    for (b = pdaObject.branchList.begin(); b != pdaObject.branchList.end(); b++) {
         int i = pdaObject.maximumTransitions + 1;
+        //std::cout << "exploring b" << (*b).id << "\n"; // for testing
         while (i > 0) {
             // check if current state is final state
             for (auto s : pdaObject.finalStateList) {
-                if (s == b.currentState) {
-                    b.accepted = true;
+                if (s == (*b).currentState) {
+                    (*b).accepted = true;
                     pdaObject.status = NOT_RUNNING;
                     // YAY ACCEPTED print last instantaneous desc.
-                    std::cout << "PATH " << b.id << std::endl;
-                    std::cout << b.numTransitions << ". (";
-                    std::cout << b.currentState << ", ";
-                    std::cout << b.remainingInputString << ", ";
-                    std::cout << b.stackToString() << ")\n";
+                    std::cout << "PATH " << (*b).id << std::endl;
+                    std::cout << (*b).numTransitions << ". (";
+                    std::cout << (*b).currentState << ", ";
+                    std::cout << (*b).remainingInputString << ", ";
+                    std::cout << (*b).stackToString(pdaObject.maximumCharacters) << ")\n";
                     // print accepted message and return to stop running
                     std::cout << "Input string " << pdaObject.originalInputString;
-                    std::cout << " accepted in " << b.numTransitions;
+                    std::cout << " accepted in " << (*b).numTransitions;
                     std::cout << " transitions!\n\n";
                     return;
                 }
             }
-            if (i > 1 && b.rejected == false) {
+            if (i > 1 && (*b).rejected == false) {
                 // find applicable transitions
-                //std::cout << "searching transitions for b" << b.id << "...\n"; // for testing
+                //std::cout << "searching transitions for b" << (*b).id << "...\n"; // for testing
                 std::list<Transition> possibleTransitions;
                 for (auto t : pdaObject.transitionList) {
-                    if (t.startState == b.currentState &&
-                        t.startInput == b.remainingInputString.at(0) &&
-                        t.startChar == b.currentStack.top()) {
+                    if (t.startState == (*b).currentState &&
+                        t.startInput == (*b).remainingInputString.at(0) &&
+                        t.startChar == (*b).currentStack.top()) {
                         //std::cout << "found one t\n"; // for testing
                         possibleTransitions.push_back(t);
                     }
@@ -225,85 +237,87 @@ void pdaRun(){
 
                     // some updates and copies in case of branching:
                     // update remaining string in a temp value
-                    std::string tempStr = b.remainingInputString;
+                    std::string tempStr = (*b).remainingInputString;
                     tempStr.erase(tempStr.begin());
                     if (tempStr == "") {
                         tempStr = "\\"; // char the represents empty string
                     }
                     // edit numTransitions in temp
-                    int tempNum = b.numTransitions+1;
+                    int tempNum = (*b).numTransitions + 1;
                     // make copy of stack
-                    std::stack<char> tempStk = b.currentStack;
+                    std::stack<char> tempStk = (*b).currentStack;
                     // make copy of path
-                    std::string tempPath = b.path;
+                    std::string tempPath = (*b).path;
 
                     std::list<Transition>::iterator tItr;
+
                     int counter = 0;
                     for (tItr = possibleTransitions.begin(); tItr != possibleTransitions.end(); tItr++) {
+                        
+                        std::stack<char> thisStack = tempStk;
+                        if ((*tItr).endChar == "\\") {
+                            thisStack.pop();
+                            if (thisStack.empty()){
+                                thisStack.push('\\'); // empty stack symbol
+                            }
+                        } else if ((*tItr).endChar != (std::string(1,(*tItr).startChar))) {
+                            thisStack.push((*tItr).endChar.at(0));
+                        }
+                        std::string thisPath = tempPath + "->" + (*tItr).endState;
+
                         if (counter == 0) {
-                            // update current branch's...
-                            // state
-                            b.currentState = (*tItr).endState;
-                            // stack
-                            if ((*tItr).endChar == "\\") {
-                                b.currentStack.pop();
-                            } else if ((*tItr).endChar != (std::string(1,(*tItr).startChar))) {
-                                b.currentStack.push((*tItr).endChar.at(0));
-                            }
-                            // remaining string
-                            b.remainingInputString = tempStr;
-                            // number of transtitions
-                            b.numTransitions = tempNum;
-                            // path string
-                            b.path = tempPath + "->" + b.currentState;
+                            // update current branch
+                            (*b).currentState = (*tItr).endState;
+                            (*b).currentStack = thisStack;
+                            (*b).remainingInputString = tempStr;
+                            (*b).numTransitions = tempNum;
+                            (*b).path = thisPath;
+                            //std::cout << "b" << (*b).id << " updated\n"; // for testing
                         } else {
-                            // create new branch to match transition with
-                            // its own currentStack and updated path
-                            std::stack<char> thisStack = tempStk;
-                            if ((*tItr).endChar == "\\") {
-                                thisStack.pop();
-                            } else if ((*tItr).endChar != (std::string(1,(*tItr).startChar))) {
-                                thisStack.push((*tItr).endChar.at(0));
-                            }
-                            std::string thisPath = tempPath + "->" + (*tItr).endState;
+                            // create new branch to match transition
                             Branch newBranch = Branch(pdaObject.branchList.size()+1, (*tItr).endState, tempStr, thisStack, tempNum, thisPath);
                             pdaObject.branchList.push_back(newBranch);
                         }
                         counter++;
                     }
                 } else {
-                    //std::cout << "b" << b.id << " rejected\n"; // for testing
-                    b.rejected = true;
+                    (*b).rejected = true;
+                    // if ((*b).rejected) {
+                    //     std::cout << "b" << (*b).id << " rejected\n"; // for testing
+                    // }
                 }
 
                 // check if already at rejection point
                 possibleTransitions.clear();
                 for (auto t : pdaObject.transitionList) {
-                    if (t.startState == b.currentState &&
-                        t.startInput == b.remainingInputString.at(0) &&
-                        t.startChar == b.currentStack.top()) {
+                    if (t.startState == (*b).currentState &&
+                        t.startInput == (*b).remainingInputString.at(0) &&
+                        t.startChar == (*b).currentStack.top()) {
                         possibleTransitions.push_back(t);
                     }
                 }
                 bool finalState = false;
                 for (auto s : pdaObject.finalStateList) {
-                    if (s == b.currentState) {
+                    if (s == (*b).currentState) {
                         finalState = true;
                     }
                 }
                 if (possibleTransitions.empty() && !finalState) {
-                    b.rejected = true;
+                    (*b).rejected = true;
+                    // if ((*b).rejected) {
+                    //     std::cout << "b" << (*b).id << " rejected\n"; // for testing
+                    // }
                 }
             }
             i--;
         }
         // print most recent instantaneous description
-        if (b.numTransitions != 0) {
-            std::cout << "PATH " << b.id << std::endl;
-            std::cout << b.numTransitions << ". (";
-            std::cout << b.currentState << ", ";
-            std::cout << b.remainingInputString << ", ";
-            std::cout << b.stackToString() << ")\n";
+        if ((*b).numTransitions != 0 && (*b).rejected == false) {
+            std::cout << "PATH " << (*b).id << std::endl;
+            std::cout << (*b).numTransitions << ". (";
+            std::cout << (*b).currentState << ", ";
+            std::cout << (*b).remainingInputString << ", ";
+            std::cout << (*b).stackToString(pdaObject.maximumCharacters) << ")\n\n";
         }
     }
     if (ifThisIsStillZeroAllRejected == 0) {
@@ -363,7 +377,7 @@ void pdaShow(){
     std::cout << "Turing Machine Name:      "<< "Prototype v2" << '\n';
     std::cout << "Turing Machine Status:    "<< pdaObject.status << '\n'\
     << "Input Strings Status:     "<< "No changes made"<< '\n' \
-    << "Current Input String:     "<< "aba" << '\n' \
+    << "Current Input String:     "<< pdaObject.originalInputString << '\n' \
     << "Total Transitions:        "<< "0"     << '\n';
 }
 void pdaView(){
