@@ -45,7 +45,7 @@ void pdaRun(){
     //int ifThisIsStillZeroAllRejected = 0;
     int checkIfNoTransitions = pdaObject.totalTransitions;
     std::list<Branch>::iterator b;
-
+    std::list<Branch> newBranches;
     for (b = pdaObject.branchList.begin(); b != pdaObject.branchList.end(); b++) {
         int i = pdaObject.maximumTransitions + 1;
         //std::cout << "exploring b" << (*b).id << "\n"; // for testing
@@ -127,33 +127,12 @@ void pdaRun(){
                         } else {
                             // create new branch to match transition
                             Branch newBranch = Branch(pdaObject.branchList.size()+1, (*tItr).endState, tempStr, thisStack, tempNum, thisPath);
-                            pdaObject.branchList.push_back(newBranch);
+                            //pdaObject.branchList.push_back(newBranch);
+                            newBranches.push_back(newBranch);
                         }
                         counter++;
                     }
                 } else {
-                    (*b).rejected = true;
-                    // if ((*b).rejected) {
-                    //     std::cout << "b" << (*b).id << " rejected\n"; // for testing
-                    // }
-                }
-
-                // check if already at rejection point
-                possibleTransitions.clear();
-                for (auto t : pdaObject.transitionList) {
-                    if (t.startState == (*b).currentState &&
-                        t.startInput == (*b).remainingInputString.at(0) &&
-                        t.startChar == (*b).currentStack.top()) {
-                        possibleTransitions.push_back(t);
-                    }
-                }
-                bool finalState = false;
-                for (auto s : pdaObject.finalStateList) {
-                    if (s == (*b).currentState) {
-                        finalState = true;
-                    }
-                }
-                if (possibleTransitions.empty() && !finalState) {
                     (*b).rejected = true;
                     // if ((*b).rejected) {
                     //     std::cout << "b" << (*b).id << " rejected\n"; // for testing
@@ -170,6 +149,16 @@ void pdaRun(){
             std::cout << (*b).truncateInputString(pdaObject.maximumCharacters) << ", ";
             std::cout << (*b).stackToString(pdaObject.maximumCharacters) << ")\n\n";
         }
+    }
+    for (auto b : newBranches) {
+        if (b.numTransitions != 0 && b.rejected == false) {
+            std::cout << "PATH " << b.id << std::endl;
+            std::cout << b.numTransitions << ". (";
+            std::cout << b.currentState << ", ";
+            std::cout << b.truncateInputString(pdaObject.maximumCharacters) << ", ";
+            std::cout << b.stackToString(pdaObject.maximumCharacters) << ")\n\n";
+        }
+        pdaObject.branchList.push_back(b);
     }
     if (checkIfNoTransitions == pdaObject.totalTransitions) {
         // num of transitions did not change, so all branches rejected
