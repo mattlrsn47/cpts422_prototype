@@ -1,20 +1,27 @@
 #include "pdaHeader.h"
-void pdaOpen(){ // Opens / loads fake config file
-    std::cout << "WORK IN PROGRESS.....\n";
+
+void pdaOpen(){
+    if (pdaObject.open) {
+        std::cout << "A PDA is already open! Please close it first.\n\n";
+        return;
+    }
     std::string pdaName;
     std::string line;
     std::cout << "Name of PDA to open: ";
     std::cin >> pdaName;
 
     /* defintion file */
+    pdaObject.name = "";
     std::cout << "Opening " << pdaName << ".def...\n";
     std::ifstream definition(pdaName + ".def");
     if (!definition.is_open()) {
         std::cout << "Invalid definition file!\n\n";
         return;
     }
+    pdaObject.name = pdaName;
+
     // get description
-    pdaObject.description = {};
+    pdaObject.description.clear();
     std::string value;
     definition >> value;
     while (value != "STATES:") {

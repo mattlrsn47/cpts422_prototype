@@ -98,60 +98,82 @@ void pdaHelp(){
 }
 
 void pdaInsert(){
-    std::string userInputString;
-    std::string line;
-    std::cout << "String to insert into list: ";
-    std::cin >> userInputString;
-    std::getline(std::cin, line);
-    for (int i = 0; i < line.length(); i++){
-        if (line[i] == ' '){
-            std::cout << "Invalid. Can only insert 1 string at a time\n\n";
-            return;
-        }
-    }
-    /* ensure string only includes chars from input alphabet */
-    int numValidChar = 0;
-    for (auto c : userInputString) {
-        for (auto a : pdaObject.inputAlphabetList) {
-            if (c == a) {
-                numValidChar++;
+    if (pdaObject.open) {
+        std::string userInputString;
+        std::string line;
+        std::cout << "String to insert into list: ";
+        std::cin >> userInputString;
+        std::getline(std::cin, line);
+        for (int i = 0; i < line.length(); i++){
+            if (line[i] == ' '){
+                std::cout << "Invalid. Can only insert 1 string at a time\n\n";
+                return;
             }
         }
-    }
-    if (numValidChar != userInputString.length()) {
-        std::cout << "Invalid character in string!\n\n";
-        return;
-    }
-    pdaObject.inputStringList.push_back(userInputString);
-    pdaObject.stringListChanged = true;
-    std::cout << userInputString << " successfully added to list!\n\n"; 
+        /* ensure string only includes chars from input alphabet */
+        int numValidChar = 0;
+        for (auto c : userInputString) {
+            for (auto a : pdaObject.inputAlphabetList) {
+                if (c == a) {
+                    numValidChar++;
+                }
+            }
+        }
+        if (numValidChar != userInputString.length()) {
+            std::cout << "Invalid character in string!\n\n";
+            return;
+        }
+        // check if duplicate string
+        for (auto s : pdaObject.inputStringList) {
+            if (s == userInputString) {
+                std::cout << "String is already in list!";
+                return;
+            }
+        }
+        pdaObject.inputStringList.push_back(userInputString);
+        pdaObject.stringListChanged = true;
+        std::cout << userInputString << " successfully added to list!\n\n";
+    } else {
+        std::cout << "No PDA is open to add input strings for!\n\n";
+    } 
     return;
 }
 
 void pdaList(){
-    int i = 1;
-    for (auto v : pdaObject.inputStringList) {
-        std::cout << i << ". " << v << "\n";
-        i++;
+    if (pdaObject.open) {
+        int i = 1;
+        for (auto v : pdaObject.inputStringList) {
+            std::cout << i << ". " << v << "\n";
+            i++;
+        }
+        std::cout << "\n";
+    } else {
+        std::cout << "No PDA is open to list input strings!";
     }
-    std::cout << "\n";
     return;
 }
 
 
 void pdaQuit(){
-    std::cout << "WORK IN PROGRESS.....\n";
-    if (pdaObject.status != RUNNING) {
-        std::cout << "The PDA was not running!\n\n";
-        return;
+    if (pdaObject.open) {
+        if (pdaObject.status != RUNNING) {
+            std::cout << "The PDA was not running!\n\n";
+            return;
+        } else {
+            std::cout << "Quitting...\n" \
+            << "Input string " << pdaObject.originalInputString << " was neither accepted nor rejected in " << pdaObject.totalTransitions << " transitions\n\n";
+        }
     } else {
-        std::cout << "Quitting push down automata...\n" \
-        << "Input string " << pdaObject.originalInputString << " was neither accepted nor rejected in " << pdaObject.totalTransitions << " transitions\n\n";
+        std::cout << "No PDA is open to quit!\n\n";
     }
+    return;
 }
 
-
 void pdaSet(){
+    if (!pdaObject.open) {
+        std::cout << "No PDA is open to change settings!\n\n";
+        return;
+    }
     int userInputTransitions;
     std::string line;
     std::cout << "Number of transitions["<< pdaObject.maximumTransitions<<"]: ";

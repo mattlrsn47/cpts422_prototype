@@ -1,6 +1,10 @@
 #include "pdaHeader.h"
 
 void pdaRun(){
+    if (!pdaObject.open) {
+        std::cout << "No PDA is open to run!\n\n";
+        return;
+    }
     if (pdaObject.status != RUNNING) {
         // not already running, so initialize
         // get input string number

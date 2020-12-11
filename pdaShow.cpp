@@ -1,6 +1,10 @@
 #include "pdaHeader.h"
 
 void pdaShow(){
+    if (!pdaObject.open) {
+        std::cout << "No PDA is open to show!\n\n";
+        return;
+    }
     std::cout \
     << "Course:\t\t"<< "Cpts 422" << '\n'\
     << "Semester:\t"<< "Fall" << '\n'\
