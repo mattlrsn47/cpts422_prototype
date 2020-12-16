@@ -1,4 +1,7 @@
+#include "UIHeader.h"
 #include "pdaHeader.h"
+
+PdaObject pdaObject;
 
 int main(int argc, const char** argv) {
     
