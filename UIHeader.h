@@ -22,7 +22,7 @@
 
 void pdaClose();
 void pdaDisplay();
-void pdaExit();
+void pdaExit(std::ostream &output);
 void pdaHelp();
 void pdaInsert();
 void pdaList();

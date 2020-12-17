@@ -9,7 +9,7 @@ void decipherCommand(int cNo){
         pdaDisplay();
         break;
     case EXIT:
-        pdaExit();
+        pdaExit(std::cout);
         break;
     case HELP:
         pdaHelp();

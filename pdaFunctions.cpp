@@ -69,12 +69,12 @@ Transition::Transition(std::string ss, char si, char sc, std::string es, std::st
 Transition::~Transition(){
 }
 /*****************************/
-void pdaExit(){
+void pdaExit(std::ostream &output){
     /* if PDA open, call pdaClose() */
     if (pdaObject.open) {
         pdaClose();
     }
-    printf("Successfully exited application\n\n");
+    output << ("Successfully exited application\n\n");
     exit(0);
     return;
 }
