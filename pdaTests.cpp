@@ -252,9 +252,21 @@ TEST(Help, help)
   std::stringstream output;
 
   // test setup
-
+  std::string expectedOutput ="|C|lose             Close pushdown automaton\n";
+  expectedOutput+="Dis|p|lay           Display complete paths through pushdown automaton\n";
+  expectedOutput+="E|x|it              Exit application\n";
+  expectedOutput+="|H|elp              Help user\n";
+  expectedOutput+="|I|nsert            Insert input string into list\n";
+  expectedOutput+="|L|ist              List input strings\n";
+  expectedOutput+="|O|pen              Open pushdown automaton\n";
+  expectedOutput+="|Q|uit              Quit operation of pushdown automation on input string\n";
+  expectedOutput+="|R|un               Run pushdown automaton on input string\n";
+  expectedOutput+="S|e|t               Set maximum number of transitions to perform\n";
+  expectedOutput+="Sho|w|              Show status of application\n";
+  expectedOutput+="|V|iew              View pushdown automaton\n\n";
   //test
-
+  pdaHelp(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -264,11 +276,12 @@ TEST(List, list1)
 {
   // input and output streams
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput = "\n";
   //test
-
+  pdaObject.inputStringList = {};
+  pdaList(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -278,11 +291,13 @@ TEST(List, list2)
 {
   // input and output streams
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput = "1. aba\n";
+  expectedOutput+="2. ab\n";
+  expectedOutput+="3. \\\n\n";
   //test
-
+  pdaList(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -292,11 +307,12 @@ TEST(List, list3)
 {
   // input and output streams
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput = "No PDA is open to list input strings!\n\n";
   //test
-
+  pdaObject.open = false;
+  pdaList(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -585,11 +601,14 @@ TEST(Set, set1)
   // input and output streams
   std::stringstream input;
   std::stringstream output;
-
   // test setup
-
+  input.str("6");
+  std::string expectedOutput = "Number of transitions[";
+  expectedOutput+=std::to_string(pdaObject.maximumTransitions) + "]: ";
+  expectedOutput+="Set maximum transitions to " + input.str() + "\n\n";  
   //test
-
+  pdaSet(output,input);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -602,9 +621,13 @@ TEST(Set, set2)
   std::stringstream output;
 
   // test setup
-
+  input.str("6 7");
+  std::string expectedOutput = "Number of transitions[";
+  expectedOutput+=std::to_string(pdaObject.maximumTransitions) + "]: ";
+  expectedOutput+="Invalid. 1 number at a time\n\n";
   //test
-
+  pdaSet(output,input);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -615,11 +638,13 @@ TEST(Set, set3)
   // input and output streams
   std::stringstream input;
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput = "Number of transitions[" + std::to_string(pdaObject.maximumTransitions) + "]: ";
+  expectedOutput+= "Invalid. Must be greater than or equal to 1\n\n";
+  input.str("-1");
   //test
-
+  pdaSet(output,input);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -632,9 +657,12 @@ TEST(Set, set4)
   std::stringstream output;
 
   // test setup
-
+  std::string expectedOutput = "No PDA is open to change settings!\n\n";
+  pdaObject.open = false;
+  input.str("1");
   //test
-
+  pdaSet(output,input);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
