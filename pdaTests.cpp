@@ -185,8 +185,11 @@ TEST(Close, close1)
   std::stringstream output;
 
   // test setup
+  std::string expectedOutput = "Closing PDA....\n\n";
 
   //test
+  pdaClose(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -199,8 +202,13 @@ TEST(Close, close2)
   std::stringstream output;
 
   // test setup
+  pdaObject.name = "test_close2";
+  pdaObject.stringListChanged = true;
+  std::string expectedOutput = "Closing PDA....\n\nSuccessfully wrote input strings to test_close2.str\n\n";
 
   //test
+  pdaClose(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -213,8 +221,12 @@ TEST(Close, close3)
   std::stringstream output;
 
   // test setup
+  pdaObject.open = false;
+  std::string expectedOutput = "No PDA was open!\n\n";
 
   //test
+  pdaClose(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -415,8 +427,15 @@ TEST(Quit, quit1)
   std::stringstream output;
 
   // test setup
+  pdaObject.status = RUNNING;
+  pdaObject.originalInputString = "aba";
+  pdaObject.totalTransitions = 2;
+  std::string expectedOutput = "Quitting...\nInput string aba was neither accepted nor rejected in 2 transitions\n\n";
 
   //test
+  pdaQuit(output);
+  EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.status, NOT_RUNNING);
 
   // revert any changes to PDA
   setupPDA();
@@ -429,8 +448,11 @@ TEST(Quit, quit2)
   std::stringstream output;
 
   // test setup
+  std::string expectedOutput = "The PDA was not running!\n\n";
 
   //test
+  pdaQuit(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -443,8 +465,12 @@ TEST(Quit, quit3)
   std::stringstream output;
 
   // test setup
+  pdaObject.open = false;
+  std::string expectedOutput = "No PDA is open to quit!\n\n";
 
   //test
+  pdaQuit(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
