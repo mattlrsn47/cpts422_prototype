@@ -457,11 +457,14 @@ TEST(Set, set1)
   // input and output streams
   std::stringstream input;
   std::stringstream output;
-
   // test setup
-
+  input.str("6");
+  std::string expectedOutput = "Number of transitions[";
+  expectedOutput+=std::to_string(pdaObject.maximumTransitions) + "]: ";
+  expectedOutput+="Set maximum transitions to " + input.str() + "\n\n";  
   //test
-
+  pdaSet(output,input);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -474,9 +477,13 @@ TEST(Set, set2)
   std::stringstream output;
 
   // test setup
-
+  input.str("6 7");
+  std::string expectedOutput = "Number of transitions[";
+  expectedOutput+=std::to_string(pdaObject.maximumTransitions) + "]: ";
+  expectedOutput+="Invalid. 1 number at a time\n\n";
   //test
-
+  pdaSet(output,input);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -487,11 +494,13 @@ TEST(Set, set3)
   // input and output streams
   std::stringstream input;
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput = "Number of transitions[" + std::to_string(pdaObject.maximumTransitions) + "]: ";
+  expectedOutput+= "Invalid. Must be greater than or equal to 1\n\n";
+  input.str("-1");
   //test
-
+  pdaSet(output,input);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -504,9 +513,12 @@ TEST(Set, set4)
   std::stringstream output;
 
   // test setup
-
+  std::string expectedOutput = "No PDA is open to change settings!\n\n";
+  pdaObject.open = false;
+  input.str("1");
   //test
-
+  pdaSet(output,input);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
