@@ -102,8 +102,16 @@ TEST(Insert, insert2)
 }
 
 /* Insert3: string has space in it */
+TEST(Insert, insert3)
+{
+
+}
 
 /* Insert4: string contatins chars not in input alphabet */
+TEST(Insert, insert4)
+{
+  
+}
 
 /* Insert5: string already in list */
 TEST(Insert, insert5)
@@ -126,66 +134,450 @@ TEST(Insert, insert5)
 }
 
 /* Close1: no changes to input strings */
+TEST(Close, close1)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Close2: changes made to input strings */
+TEST(Close, close2)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Close3: pda is not open */
+TEST(Close, close3)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Display1: pda has not yet run */
+TEST(Display, display1)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Display2: multiple branches */
+TEST(Display, display2)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Display3: pda is not open */
+TEST(Display, display3)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Help */
+TEST(Help, help)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* List1: no strings in list */
+TEST(List, list1)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* List2: multiple strings in list */
+TEST(List, list2)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* List3: pda is not open */
+TEST(List, list3)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Open1: use "test" files */
+TEST(Open, open1)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Open2: invalid file */
+TEST(Open, open2)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Open3: a pda is already open */
+TEST(Open, open3)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Quit1: successfully quit */
+TEST(Quit, quit1)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Quit2: pda not running */
+TEST(Quit, quit2)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Quit3: pda is not open */
+TEST(Quit, quit3)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Run1: pda not already running, select string */
+TEST(Run, run1)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Run2: pda is running, continuation */
+TEST(Run, run2)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Run3: accepted string */
+TEST(Run, run3)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Run4: rejected string */
+TEST(Run, run4)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Run5: pda is not open */
+TEST(Run, run5)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Set1: successfully set transitions */
+TEST(Set, set1)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Set2: attempt value with a space */
+TEST(Set, set2)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Set3: attempt value less than 1 */
+TEST(Set, set3)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Set4: pda is not open */
+TEST(Set, set4)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Show1: pda has not yet run */
+TEST(Show, show1)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Show2: pda is running */
+TEST(Show, show2)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Show3: pda is not running */
+TEST(Show, show3)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* Show4: pda is not open */
+TEST(Show, show4)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* View1: successfully view pda */
+TEST(View, view1)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 /* View2: pda is not open */
+TEST(View, view2)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+
+  //test
+
+  // revert any changes to PDA
+  setupPDA();
+}
 
 int main(int argc, char **argv) {
   setupPDA(); // initialize test object
