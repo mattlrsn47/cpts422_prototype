@@ -248,11 +248,12 @@ TEST(List, list1)
 {
   // input and output streams
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput = "\n";
   //test
-
+  pdaObject.inputStringList = {};
+  pdaList(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -262,11 +263,13 @@ TEST(List, list2)
 {
   // input and output streams
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput = "1. aba\n";
+  expectedOutput+="2. ab\n";
+  expectedOutput+="3. \\\n\n";
   //test
-
+  pdaList(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -276,11 +279,12 @@ TEST(List, list3)
 {
   // input and output streams
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput = "No PDA is open to list input strings!\n\n";
   //test
-
+  pdaObject.open = false;
+  pdaList(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
