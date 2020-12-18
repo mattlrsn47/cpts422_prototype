@@ -125,6 +125,68 @@ TEST(Insert, insert5)
   setupPDA();
 }
 
+/* Close1: no changes to input strings */
+
+/* Close2: changes made to input strings */
+
+/* Close3: pda is not open */
+
+/* Display1: pda has not yet run */
+
+/* Display2: multiple branches */
+
+/* Display3: pda is not open */
+
+/* Help */
+
+/* List1: no strings in list */
+
+/* List2: multiple strings in list */
+
+/* List3: pda is not open */
+
+/* Open1: use "test" files */
+
+/* Open2: invalid file */
+
+/* Open3: a pda is already open */
+
+/* Quit1: successfully quit */
+
+/* Quit2: pda not running */
+
+/* Quit3: pda is not open */
+
+/* Run1: pda not already running, select string */
+
+/* Run2: pda is running, continuation */
+
+/* Run3: accepted string */
+
+/* Run4: rejected string */
+
+/* Run5: pda is not open */
+
+/* Set1: successfully set transitions */
+
+/* Set2: attempt value with a space */
+
+/* Set3: attempt value less than 1 */
+
+/* Set4: pda is not open */
+
+/* Show1: pda has not yet run */
+
+/* Show2: pda is running */
+
+/* Show3: pda is not running */
+
+/* Show4: pda is not open */
+
+/* View1: successfully view pda */
+
+/* View2: pda is not open */
+
 int main(int argc, char **argv) {
   setupPDA(); // initialize test object
   testing::InitGoogleTest(&argc, argv);
