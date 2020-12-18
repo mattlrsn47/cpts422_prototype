@@ -809,11 +809,34 @@ TEST(View, view1)
 {
   // input and output streams
   std::stringstream output;
-
+  
   // test setup
-
+  std::string expectedOutput="This is a test PDA. \n\n";
+  expectedOutput+="STATES: s0 s1 s2 \n\n";
+  expectedOutput+="INPUT_ALPHABET: a b \n\n";
+  expectedOutput+="STACK_ALPHABET: X Y Z \n\nTRANSITION_FUNCTION:\n";
+  expectedOutput+="s0 a X  s0 XX\n";
+  expectedOutput+="s0 a X  s1 X\n";
+  expectedOutput+="s0 a Y  s0 XY\n";
+  expectedOutput+="s0 a Y  s1 Y\n";
+  expectedOutput+="s0 a Z  s0 XZ\n";
+  expectedOutput+="s0 a Z  s1 Z\n";
+  expectedOutput+="s0 b X  s0 YX\n";
+  expectedOutput+="s0 b X  s1 X\n";
+  expectedOutput+="s0 b Y  s0 YY\n";
+  expectedOutput+="s0 b Y  s1 Y\n";
+  expectedOutput+="s0 b Z  s0 YZ\n";
+  expectedOutput+="s0 b Z  s1 Z\n";
+  expectedOutput+="s1 a X  s1 \\\n";
+  expectedOutput+="s1 b Y  s1 \\\n";
+  expectedOutput+="s1 \\ Z  s2 \\\n\n\n";
+  expectedOutput+="INITIAL_STATE: s0\n\n";
+  expectedOutput+="START_CHARACTER: Z\n\n";
+  expectedOutput+="FINAL_STATES: s2 \n\n";
+  
   //test
-
+  pdaView(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
@@ -823,11 +846,12 @@ TEST(View, view2)
 {
   // input and output streams
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput ="No PDA is open to view!\n\n";
+  pdaObject.open = false;
   //test
-
+  pdaView(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
