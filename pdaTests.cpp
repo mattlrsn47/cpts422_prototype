@@ -339,8 +339,14 @@ TEST(Open, open1)
   std::stringstream output;
 
   // test setup
+  pdaObject = PdaObject();
+  input.str("test");
+
+  std::string expectedOutput = "Name of PDA to open: Opening test.def...\nOpening test.str...\nInput string \"\" discarded.\nInput string \"howdy\" discarded.\nInput string \"a b a\" discarded.\nOpening test.cfg...\n\n";
 
   //test
+  pdaOpen(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -354,8 +360,14 @@ TEST(Open, open2)
   std::stringstream output;
 
   // test setup
+  pdaObject.open = false;
+  input.str("invalid");
+
+  std::string expectedOutput = "Name of PDA to open: Opening invalid.def...\nInvalid definition file!\n\n";
 
   //test
+  pdaOpen(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -369,8 +381,11 @@ TEST(Open, open3)
   std::stringstream output;
 
   // test setup
+  std::string expectedOutput = "A PDA is already open! Please close it first.\n\n";
 
   //test
+  pdaOpen(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
