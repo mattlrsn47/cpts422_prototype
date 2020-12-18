@@ -578,7 +578,30 @@ TEST(Show, show4)
   // revert any changes to PDA
   setupPDA();
 }
-
+/*pdaObject.description = { "This", "is", "a", "test", "PDA." };
+  pdaObject.stateList = { "s0", "s1", "s2" };
+  pdaObject.inputAlphabetList = { 'a', 'b' };
+  pdaObject.stackAlphabetList = { 'X', 'Y', 'Z' };
+  pdaObject.transitionList = {  Transition("s0",'a','X',"s0","XX"),
+                                Transition("s0",'a','X',"s1","X"),
+                                Transition("s0",'a','Y',"s0","XY"),
+                                Transition("s0",'a','Y',"s1","Y"),
+                                Transition("s0",'a','Z',"s0","XZ"),
+                                Transition("s0",'a','Z',"s1","Z"),
+                                Transition("s0",'b','X',"s0","YX"),
+                                Transition("s0",'b','X',"s1","X"),
+                                Transition("s0",'b','Y',"s0","YY"),
+                                Transition("s0",'b','Y',"s1","Y"),
+                                Transition("s0",'b','Z',"s0","YZ"),
+                                Transition("s0",'b','Z',"s1","Z"),
+                                Transition("s1",'a','X',"s1","\\"),
+                                Transition("s1",'b','Y',"s1","\\"),
+                                Transition("s1",'\\','Z',"s2","\\")
+                              };
+  pdaObject.initialState = "s0";
+  pdaObject.startCharacter = 'Z';
+  pdaObject.finalStateList = { "s2" };
+*/
 /* View1: successfully view pda */
 TEST(View, view1)
 {
@@ -586,9 +609,32 @@ TEST(View, view1)
   std::stringstream output;
   
   // test setup
-  std::string expectedOutput;
+  std::string expectedOutput="This is a test PDA \n\n";
+  expectedOutput+="STATES: s0 s1 s2 \n\n";
+  expectedOutput+="INPUT_ALPHABET: a b \n\n";
+  expectedOutput+="STACK_ALPHABET: X Y Z \n\nTRANSITION_FUNCTION:\n";
+  expectedOutput+="s0 a X  s0 XX\n";
+  expectedOutput+="s0 a X  s1 X\n";
+  expectedOutput+="s0 a Y  s0 XY\n";
+  expectedOutput+="s0 a Y  s1 Y\n";
+  expectedOutput+="s0 a Z  s0 XZ\n";
+  expectedOutput+="s0 a Z  s1 Z\n";
+  expectedOutput+="s0 b X  s0 YX\n";
+  expectedOutput+="s0 b X  s1 X\n";
+  expectedOutput+="s0 b Y  s0 YY\n";
+  expectedOutput+="s0 b Y  s1 Y\n";
+  expectedOutput+="s0 b Z  s0 YZ\n";
+  expectedOutput+="s0 b Z  s1 Z\n";
+  expectedOutput+="s1 a X  s1 \\\n";
+  expectedOutput+="s1 b Y  s1 \\\n";
+  expectedOutput+="s1 \\ Z  s2 \\\n\n\n";
+  expectedOutput+="INITIAL_STATE: s0\n\n";
+  expectedOutput+="START_CHARACTER: Z\n\n";
+  expectedOutput+="FINAL_STATES: s2 \n\n";
+  
   //test
-
+  pdaView(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
