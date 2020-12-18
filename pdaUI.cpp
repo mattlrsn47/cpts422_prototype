@@ -1,6 +1,11 @@
 #include "UIHeader.h"
 
+std::istream* input;
+std::ostream* output;
+
 void decipherCommand(int cNo){
+    input = &std::cin;
+    output = &std::cout;
     switch(cNo){
     case CLOSE:
         pdaClose();
@@ -9,13 +14,13 @@ void decipherCommand(int cNo){
         pdaDisplay();
         break;
     case EXIT:
-        pdaExit(std::cout);
+        pdaExit(*output);
         break;
     case HELP:
         pdaHelp();
         break;
     case INSERT:
-        pdaInsert();
+        pdaInsert(*output, *input);
         break;
     case LIST:
         pdaList();

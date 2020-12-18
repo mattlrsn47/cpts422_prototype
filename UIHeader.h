@@ -18,13 +18,14 @@
 #define SHOW 11
 #define VIEW 12
 
+
 // pda functions
 
 void pdaClose();
 void pdaDisplay();
 void pdaExit(std::ostream &output);
 void pdaHelp();
-void pdaInsert();
+void pdaInsert(std::ostream &output, std::istream &input);
 void pdaList();
 void pdaOpen();
 void pdaQuit();

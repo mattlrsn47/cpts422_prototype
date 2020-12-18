@@ -97,16 +97,16 @@ void pdaHelp(){
     return;
 }
 
-void pdaInsert(){
+void pdaInsert(std::ostream &output, std::istream &input){
     if (pdaObject.open) {
         std::string userInputString;
         std::string line;
-        std::cout << "String to insert into list: ";
-        std::cin >> userInputString;
-        std::getline(std::cin, line);
+        output << "String to insert into list: ";
+        input >> userInputString;
+        std::getline(input, line);
         for (int i = 0; i < line.length(); i++){
             if (line[i] == ' '){
-                std::cout << "Invalid. Can only insert 1 string at a time\n\n";
+                output << "Invalid. Can only insert 1 string at a time\n\n";
                 return;
             }
         }
@@ -120,21 +120,21 @@ void pdaInsert(){
             }
         }
         if (numValidChar != userInputString.length()) {
-            std::cout << "Invalid character in string!\n\n";
+            output << "Invalid character in string!\n\n";
             return;
         }
         // check if duplicate string
         for (auto s : pdaObject.inputStringList) {
             if (s == userInputString) {
-                std::cout << "String is already in list!\n\n";
+                output << "String is already in list!\n\n";
                 return;
             }
         }
         pdaObject.inputStringList.push_back(userInputString);
         pdaObject.stringListChanged = true;
-        std::cout << userInputString << " successfully added to list!\n\n";
+        output << userInputString << " successfully added to list!\n\n";
     } else {
-        std::cout << "No PDA is open to add input strings for!\n\n";
+        output << "No PDA is open to add input strings for!\n\n";
     } 
     return;
 }
