@@ -586,7 +586,7 @@ TEST(View, view1)
   std::stringstream output;
   
   // test setup
-  std::string expectedOutput="This is a test PDA \n\n";
+  std::string expectedOutput="This is a test PDA. \n\n";
   expectedOutput+="STATES: s0 s1 s2 \n\n";
   expectedOutput+="INPUT_ALPHABET: a b \n\n";
   expectedOutput+="STACK_ALPHABET: X Y Z \n\nTRANSITION_FUNCTION:\n";
