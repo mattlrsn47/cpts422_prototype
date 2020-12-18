@@ -584,9 +584,9 @@ TEST(View, view1)
 {
   // input and output streams
   std::stringstream output;
-
+  
   // test setup
-
+  std::string expectedOutput;
   //test
 
   // revert any changes to PDA
@@ -598,11 +598,12 @@ TEST(View, view2)
 {
   // input and output streams
   std::stringstream output;
-
   // test setup
-
+  std::string expectedOutput ="No PDA is open to view!\n\n";
+  pdaObject.open = false;
   //test
-
+  pdaView(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
