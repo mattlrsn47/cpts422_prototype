@@ -8,40 +8,40 @@ void decipherCommand(int cNo){
     output = &std::cout;
     switch(cNo){
     case CLOSE:
-        pdaClose();
+        pdaClose(*output);
         break;
     case DISPLAY:
-        pdaDisplay();
+        pdaDisplay(*output);
         break;
     case EXIT:
         pdaExit(*output);
         break;
     case HELP:
-        pdaHelp();
+        pdaHelp(*output);
         break;
     case INSERT:
         pdaInsert(*output, *input);
         break;
     case LIST:
-        pdaList();
+        pdaList(*output);
         break;
     case OPEN:
-        pdaOpen();
+        pdaOpen(*output, *input);
         break;
     case QUIT:
-        pdaQuit();
+        pdaQuit(*output);
         break;
     case RUN:
-        pdaRun();
+        pdaRun(*output, *input);
         break;
     case SET:
-        pdaSet();
+        pdaSet(*output, *input);
         break;
     case SHOW:
-        pdaShow();
+        pdaShow(*output);
         break;
     case VIEW:
-        pdaView();
+        pdaView(*output);
         break;
     default:
         break;

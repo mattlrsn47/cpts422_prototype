@@ -21,18 +21,18 @@
 
 // pda functions
 
-void pdaClose();
-void pdaDisplay();
+void pdaClose(std::ostream &output);
+void pdaDisplay(std::ostream &output);
 void pdaExit(std::ostream &output);
-void pdaHelp();
+void pdaHelp(std::ostream &output);
 void pdaInsert(std::ostream &output, std::istream &input);
-void pdaList();
-void pdaOpen();
-void pdaQuit();
-void pdaRun();
-void pdaSet();
-void pdaShow();
-void pdaView();
+void pdaList(std::ostream &output);
+void pdaOpen(std::ostream &output, std::istream &input);
+void pdaQuit(std::ostream &output);
+void pdaRun(std::ostream &output, std::istream &input);
+void pdaSet(std::ostream &output, std::istream &input);
+void pdaShow(std::ostream &output);
+void pdaView(std::ostream &output);
 
 
 void decipherCommand(int cNo);

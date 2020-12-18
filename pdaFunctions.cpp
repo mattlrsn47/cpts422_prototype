@@ -72,15 +72,15 @@ Transition::~Transition(){
 void pdaExit(std::ostream &output){
     /* if PDA open, call pdaClose() */
     if (pdaObject.open) {
-        pdaClose();
+        pdaClose(output);
     }
     output << ("Successfully exited application\n\n");
     exit(0);
     return;
 }
 
-void pdaHelp(){
-    std::cout \
+void pdaHelp(std::ostream &output){
+    output \
     << "|C|lose             Close pushdown automaton\n" \
     << "Dis|p|lay           Display complete paths through pushdown automaton\n" \
     << "E|x|it              Exit application\n" \
@@ -139,47 +139,47 @@ void pdaInsert(std::ostream &output, std::istream &input){
     return;
 }
 
-void pdaList(){
+void pdaList(std::ostream &output){
     if (pdaObject.open) {
         int i = 1;
         for (auto v : pdaObject.inputStringList) {
-            std::cout << i << ". " << v << "\n";
+            output << i << ". " << v << "\n";
             i++;
         }
-        std::cout << "\n";
+        output << "\n";
     } else {
-        std::cout << "No PDA is open to list input strings!\n\n";
+        output << "No PDA is open to list input strings!\n\n";
     }
     return;
 }
 
 
-void pdaQuit(){
+void pdaQuit(std::ostream &output){
     if (pdaObject.open) {
         if (pdaObject.status != RUNNING) {
-            std::cout << "The PDA was not running!\n\n";
+            output << "The PDA was not running!\n\n";
             return;
         } else {
-            std::cout << "Quitting...\n" \
+            output << "Quitting...\n" \
             << "Input string " << pdaObject.originalInputString << " was neither accepted nor rejected in " << pdaObject.totalTransitions << " transitions\n\n";
             pdaObject.status = NOT_RUNNING;
         }
     } else {
-        std::cout << "No PDA is open to quit!\n\n";
+        output << "No PDA is open to quit!\n\n";
     }
     return;
 }
 
-void pdaSet(){
+void pdaSet(std::ostream &output, std::istream &input){
     if (!pdaObject.open) {
-        std::cout << "No PDA is open to change settings!\n\n";
+        output << "No PDA is open to change settings!\n\n";
         return;
     }
     int userInputTransitions;
     std::string line;
-    std::cout << "Number of transitions["<< pdaObject.maximumTransitions<<"]: ";
-    std::cin >> userInputTransitions;
-    std::getline(std::cin, line);
+    output << "Number of transitions["<< pdaObject.maximumTransitions<<"]: ";
+    input >> userInputTransitions;
+    std::getline(input, line);
     for (int i = 0; i < line.length(); i++){
         if (line[i] == ' '){
             std::cout << "Invalid. 1 number at a time\n\n";
@@ -194,51 +194,51 @@ void pdaSet(){
     }
     // added check to ensure num is positive
     if (userInputTransitions < 1) {
-        std::cout << "Invalid. Must be greater than or equal to 1\n\n";
+        output << "Invalid. Must be greater than or equal to 1\n\n";
         return;
     }
     pdaObject.maximumTransitions = userInputTransitions;
-    std::cout << "Set maximum transitions to " << pdaObject.maximumTransitions << "\n\n";
+    output << "Set maximum transitions to " << pdaObject.maximumTransitions << "\n\n";
     return;
 }
 
-void pdaView(){
+void pdaView(std::ostream &output){
     if (pdaObject.open) {
         if (!pdaObject.description.empty()) {
             for (auto v : pdaObject.description) {
-                std::cout << v << " ";
+                output << v << " ";
             }
-            std::cout << "\n\n";
+            output << "\n\n";
         }
-        std::cout << "STATES: ";
+        output << "STATES: ";
         for (auto v : pdaObject.stateList)
-            std::cout << v << " ";
-        std::cout << "\n\n";
-        std::cout << "INPUT_ALPHABET: ";
+            output << v << " ";
+        output << "\n\n";
+        output << "INPUT_ALPHABET: ";
         for (auto v : pdaObject.inputAlphabetList)
-            std::cout << v << " ";
-        std::cout << "\n\n";
-        std::cout << "STACK_ALPHABET: ";
+            output << v << " ";
+        output << "\n\n";
+        output << "STACK_ALPHABET: ";
         for (auto v : pdaObject.stackAlphabetList)
-            std::cout << v << " ";
-        std::cout << "\n\n";
-        std::cout << "TRANSITION_FUNCTION:\n";
+            output << v << " ";
+        output << "\n\n";
+        output << "TRANSITION_FUNCTION:\n";
         for (auto it = pdaObject.transitionList.cbegin(); it != pdaObject.transitionList.cend(); it++){
-            std::cout << it->startState << " " << it->startInput << " " << it->startChar << "  " << it->endState << " " << it->endChar << "\n";
+            output << it->startState << " " << it->startInput << " " << it->startChar << "  " << it->endState << " " << it->endChar << "\n";
         }
-        std::cout << "\n\n";
-        std:: cout << "INITIAL_STATE: " << pdaObject.initialState;
-        std::cout << "\n\n";
+        output << "\n\n";
+        output << "INITIAL_STATE: " << pdaObject.initialState;
+        output << "\n\n";
 
-        std::cout << "START_CHARACTER: " << pdaObject.startCharacter;
-        std::cout << "\n\n";
+        output << "START_CHARACTER: " << pdaObject.startCharacter;
+        output << "\n\n";
 
-        std::cout << "FINAL_STATES: " ;
+        output << "FINAL_STATES: " ;
         for (auto v : pdaObject.finalStateList)
-            std::cout << v << " ";
-        std::cout << "\n\n";
+            output << v << " ";
+        output << "\n\n";
     } else {
-        std::cout << "No PDA is open to view!\n\n";
+        output << "No PDA is open to view!\n\n";
     }
     return;
 }

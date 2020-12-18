@@ -5,17 +5,17 @@ PdaObject pdaObject;
 
 /* FUNCTIONS TO TEST */
 void pdaInsert(std::ostream &output, std::istream &input);
-void pdaClose();
-void pdaDisplay();
+void pdaClose(std::ostream &output);
+void pdaDisplay(std::ostream &output);
 //void pdaExit(std::ostream &output); exit() stops test, leave out for now
-void pdaHelp();
-void pdaList();
-void pdaOpen();
-void pdaQuit();
-void pdaRun();
-void pdaSet();
-void pdaShow();
-void pdaView();
+void pdaHelp(std::ostream &output);
+void pdaList(std::ostream &output);
+void pdaOpen(std::ostream &output, std::istream &input);
+void pdaQuit(std::ostream &output);
+void pdaRun(std::ostream &output, std::istream &input);
+void pdaSet(std::ostream &output, std::istream &input);
+void pdaShow(std::ostream &output);
+void pdaView(std::ostream &output);
 
 // Sets up generic PDA
 void setupPDA()

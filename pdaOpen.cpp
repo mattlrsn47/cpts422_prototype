@@ -1,21 +1,21 @@
 #include "pdaHeader.h"
 
-void pdaOpen(){
+void pdaOpen(std::ostream &output, std::istream &input){
     if (pdaObject.open) {
-        std::cout << "A PDA is already open! Please close it first.\n\n";
+        output << "A PDA is already open! Please close it first.\n\n";
         return;
     }
     std::string pdaName;
     std::string line;
-    std::cout << "Name of PDA to open: ";
-    std::cin >> pdaName;
+    output << "Name of PDA to open: ";
+    input >> pdaName;
 
     /* defintion file */
     pdaObject.name = "";
-    std::cout << "Opening " << pdaName << ".def...\n";
+    output << "Opening " << pdaName << ".def...\n";
     std::ifstream definition(pdaName + ".def");
     if (!definition.is_open()) {
-        std::cout << "Invalid definition file!\n\n";
+        output << "Invalid definition file!\n\n";
         return;
     }
     pdaObject.name = pdaName;
@@ -39,7 +39,7 @@ void pdaOpen(){
             for (int i = 0; i < state.length(); i++) {
                 if (!isalnum(state[i])) {
                     if (state[i] != '_') {
-                        std::cout << "Illegal states. Invalid definition!\n\n";
+                        output << "Illegal states. Invalid definition!\n\n";
                         return;
                     }
                 }
@@ -47,7 +47,7 @@ void pdaOpen(){
             // check if duplicate state
             for (auto st : pdaObject.stateList) {
                 if (st == state) {
-                    std::cout << "Illegal states. Invalid definition!\n\n";
+                    output << "Illegal states. Invalid definition!\n\n";
                     return;
                 }
             }
@@ -55,7 +55,7 @@ void pdaOpen(){
         }
     }
     if ((!(definition >> value)) || (value != "INPUT_ALPHABET:")) {
-        std::cout << "Missing keyword after states. Invalid definition!\n\n";
+        output << "Missing keyword after states. Invalid definition!\n\n";
         return;
     }
 
@@ -73,22 +73,22 @@ void pdaOpen(){
                 // check if duplicate item
                 for (auto a : pdaObject.inputAlphabetList) {
                     if (a == item[0]) {
-                        std::cout << "Illegal input alphabet. Invalid definition!\n\n";
+                        output << "Illegal input alphabet. Invalid definition!\n\n";
                         return;
                     }
                 }
                 pdaObject.inputAlphabetList.push_back(item[0]);
             } else {
-                std::cout << "Illegal input alphabet. Invalid definition!\n\n";
+                output << "Illegal input alphabet. Invalid definition!\n\n";
                 return;
             }
         }
     } else {
-        std::cout << "Illegal input alphabet. Invalid definition!\n\n";
+        output << "Illegal input alphabet. Invalid definition!\n\n";
         return;
     }
     if ((!(definition >> value)) || (value != "STACK_ALPHABET:")) {
-        std::cout << "Missing keyword after input alphabet. Invalid definition!\n\n";
+        output << "Missing keyword after input alphabet. Invalid definition!\n\n";
         return;
     }
 
@@ -106,22 +106,22 @@ void pdaOpen(){
                 // check if duplicate item
                 for (auto a : pdaObject.stackAlphabetList) {
                     if (a == item[0]) {
-                        std::cout << "Illegal stack alphabet. Invalid definition!\n\n";
+                        output << "Illegal stack alphabet. Invalid definition!\n\n";
                         return;
                     }
                 }
                 pdaObject.stackAlphabetList.push_back(item[0]);
             } else {
-                std::cout << "Illegal stack alphabet. Invalid definition!\n\n";
+                output << "Illegal stack alphabet. Invalid definition!\n\n";
                 return;
             }
         }
     } else {
-        std::cout << "Illegal stack alphabet. Invalid definition!\n\n";
+        output << "Illegal stack alphabet. Invalid definition!\n\n";
         return;
     }
     if ((!(definition >> value)) || (value != "TRANSITION_FUNCTION:")) {
-        std::cout << "Missing keyword after stack alphabet. Invalid definition!\n\n";
+        output << "Missing keyword after stack alphabet. Invalid definition!\n\n";
         return;
     }
 
@@ -184,7 +184,7 @@ void pdaOpen(){
             Transition newT = Transition(startState, startInput, startChar, endState, endChar);
             pdaObject.transitionList.push_back(newT);
         } else {
-            std::cout << "Illegal transition function. Invalid definition!\n\n";
+            output << "Illegal transition function. Invalid definition!\n\n";
             return;
         }
     }
@@ -202,11 +202,11 @@ void pdaOpen(){
     if (validInitialState) {
         pdaObject.initialState = value;
     } else {
-        std::cout << "Illegal initial state. Invalid definition!\n\n";
+        output << "Illegal initial state. Invalid definition!\n\n";
         return;
     }
     if ((!(definition >> value)) || value != "START_CHARACTER:") {
-        std::cout << "Missing keyword after initial state. Invalid definition!\n\n";
+        output << "Missing keyword after initial state. Invalid definition!\n\n";
         return;
     }
 
@@ -227,15 +227,15 @@ void pdaOpen(){
         if (validStartChar) {
             pdaObject.startCharacter = value[0];
         } else {
-            std::cout << "Illegal start character. Invalid definition!\n\n";
+            output << "Illegal start character. Invalid definition!\n\n";
             return;
         }
     } else {
-        std::cout << "Illegal start character. Invalid definition!\n\n";
+        output << "Illegal start character. Invalid definition!\n\n";
         return;
     }
     if ((!(definition >> value)) || (value != "FINAL_STATES:")) {
-        std::cout << "Missing keyword after start character. Invalid definition!\n\n";
+        output << "Missing keyword after start character. Invalid definition!\n\n";
         return;
     }
 
@@ -249,7 +249,7 @@ void pdaOpen(){
             for (int i = 0; i < state.length(); i++) {
                 if (!isalnum(state[i])) {
                     if (state[i] != '_') {
-                        std::cout << "Illegal final states. Invalid definition!\n\n";
+                        output << "Illegal final states. Invalid definition!\n\n";
                         return;
                     }
                 }
@@ -257,7 +257,7 @@ void pdaOpen(){
             // check if duplicate final state
             for (auto st : pdaObject.finalStateList) {
                 if (st == state) {
-                    std::cout << "Illegal final states. Invalid definition!\n\n";
+                    output << "Illegal final states. Invalid definition!\n\n";
                     return;
                 }
             }
@@ -271,12 +271,12 @@ void pdaOpen(){
             if (validFinalState) {
                 pdaObject.finalStateList.push_back(state);
             } else {
-                std::cout << "Illegal final states. Invalid definition!\n\n";
+                output << "Illegal final states. Invalid definition!\n\n";
                 return;
             }
         }
     } else {
-        std::cout << "Illegal final states. Invalid definition!\n\n";
+        output << "Illegal final states. Invalid definition!\n\n";
         return;
     }
 
@@ -285,7 +285,7 @@ void pdaOpen(){
     /* input string file */
     pdaObject.stringListChanged = false;
     pdaObject.inputStringList.clear();
-    std::cout << "Opening " << pdaName << ".str...\n";
+    output << "Opening " << pdaName << ".str...\n";
     std::ifstream inputStrings(pdaName + ".str");
     //std::string line;
     while (getline(inputStrings, line)) {
@@ -319,7 +319,7 @@ void pdaOpen(){
         if (validLine) {
             pdaObject.inputStringList.push_back(line);
         } else {
-            std::cout << "Input string \"" << line << "\" discarded.\n";
+            output << "Input string \"" << line << "\" discarded.\n";
             pdaObject.stringListChanged = true;
         }
     }
@@ -330,7 +330,7 @@ void pdaOpen(){
     pdaObject.maximumTransitions = 1;
     pdaObject.maximumCharacters = 32;
 
-    std::cout << "Opening " << pdaName << ".cfg...\n";
+    output << "Opening " << pdaName << ".cfg...\n";
     std::ifstream config(pdaName + ".cfg");
     config >> value;
     if (value == "MAXIMUM_TRANSITIONS=") {
@@ -349,7 +349,7 @@ void pdaOpen(){
 
     config.close();
    
-    std::cout << "\n";
+    output << "\n";
     pdaObject.accepted = false;
     pdaObject.rejected = false;
     pdaObject.status = NOT_YET_RUN;
