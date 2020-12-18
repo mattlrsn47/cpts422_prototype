@@ -182,12 +182,12 @@ void pdaSet(std::ostream &output, std::istream &input){
     std::getline(input, line);
     for (int i = 0; i < line.length(); i++){
         if (line[i] == ' '){
-            std::cout << "Invalid. 1 number at a time\n\n";
+            output << "Invalid. 1 number at a time\n\n";
             return;
         }
     }
     if (std::cin.fail()){
-            std::cout << "Invalid number of transitions\n\n";
+            output << "Invalid number of transitions\n\n";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             return;
