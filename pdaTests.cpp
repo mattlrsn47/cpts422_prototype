@@ -578,30 +578,7 @@ TEST(Show, show4)
   // revert any changes to PDA
   setupPDA();
 }
-/*pdaObject.description = { "This", "is", "a", "test", "PDA." };
-  pdaObject.stateList = { "s0", "s1", "s2" };
-  pdaObject.inputAlphabetList = { 'a', 'b' };
-  pdaObject.stackAlphabetList = { 'X', 'Y', 'Z' };
-  pdaObject.transitionList = {  Transition("s0",'a','X',"s0","XX"),
-                                Transition("s0",'a','X',"s1","X"),
-                                Transition("s0",'a','Y',"s0","XY"),
-                                Transition("s0",'a','Y',"s1","Y"),
-                                Transition("s0",'a','Z',"s0","XZ"),
-                                Transition("s0",'a','Z',"s1","Z"),
-                                Transition("s0",'b','X',"s0","YX"),
-                                Transition("s0",'b','X',"s1","X"),
-                                Transition("s0",'b','Y',"s0","YY"),
-                                Transition("s0",'b','Y',"s1","Y"),
-                                Transition("s0",'b','Z',"s0","YZ"),
-                                Transition("s0",'b','Z',"s1","Z"),
-                                Transition("s1",'a','X',"s1","\\"),
-                                Transition("s1",'b','Y',"s1","\\"),
-                                Transition("s1",'\\','Z',"s2","\\")
-                              };
-  pdaObject.initialState = "s0";
-  pdaObject.startCharacter = 'Z';
-  pdaObject.finalStateList = { "s2" };
-*/
+
 /* View1: successfully view pda */
 TEST(View, view1)
 {
