@@ -104,13 +104,41 @@ TEST(Insert, insert2)
 /* Insert3: string has space in it */
 TEST(Insert, insert3)
 {
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
 
+  // test setup
+  std::string expectedOutput = "String to insert into list: Invalid. Can only insert 1 string at a time\n\n";
+  input.str("a ba");
+
+  //test
+  pdaInsert(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.stringListChanged, false);
+
+  // revert any changes to PDA
+  setupPDA();
 }
 
 /* Insert4: string contatins chars not in input alphabet */
 TEST(Insert, insert4)
 {
-  
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+  std::string expectedOutput = "String to insert into list: Invalid character in string!\n\n";
+  input.str("lmnop");
+
+  //test
+  pdaInsert(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.stringListChanged, false);
+
+  // revert any changes to PDA
+  setupPDA();
 }
 
 /* Insert5: string already in list */
@@ -360,7 +388,7 @@ TEST(Quit, quit3)
   setupPDA();
 }
 
-/* Run1: pda not already running, select string */
+/* Run1: pda not already running, select nonexistent string */
 TEST(Run, run1)
 {
   // input and output streams
@@ -368,14 +396,20 @@ TEST(Run, run1)
   std::stringstream output;
 
   // test setup
+  std::string expectedOutput = "Input string number in list: Invalid input string number!\n\n";
+  input.str("8");
 
   //test
+  pdaRun(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.status, NOT_YET_RUN);
+  EXPECT_EQ(pdaObject.totalTransitions, 0);
 
   // revert any changes to PDA
   setupPDA();
 }
 
-/* Run2: pda is running, continuation */
+/* Run2: pda not already running, select valid string */
 TEST(Run, run2)
 {
   // input and output streams
@@ -383,14 +417,31 @@ TEST(Run, run2)
   std::stringstream output;
 
   // test setup
+  std::string expectedOutput = "Input string number in list: Initializing...\nPATH 1\n0. (s0, aba, Z)\n\nPATH 1\n1. (s0, ba, XZ)\n\nPATH 2\n1. (s1, ba, Z)\n\n";
+  input.str("1");
+  std::string expectedOriginalInputString = "aba";
+  // //path 1 stack
+  // std::stack<char> stack1;
+  // stack1.push('Z');
+  // stack1.push('X');
+  // //path 2 stack
+  // std::stack<char> stack2;
+  // stack2.push('Z');
+  // std::list<Branch> expectedBranchList = { Branch(1, "s0", "ba", stack1, 1, "s0->s0"), Branch(2, "s1", "ba", stack2, 1, "s0->s1")};
 
   //test
+  pdaRun(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.status, RUNNING);
+  EXPECT_EQ(pdaObject.totalTransitions, 1);
+  EXPECT_EQ(pdaObject.originalInputString, expectedOriginalInputString);
+  //EXPECT_EQ(pdaObject.branchList, expectedBranchList);
 
   // revert any changes to PDA
   setupPDA();
 }
 
-/* Run3: accepted string */
+/* Run3: pda is running, continuation */
 TEST(Run, run3)
 {
   // input and output streams
@@ -398,14 +449,35 @@ TEST(Run, run3)
   std::stringstream output;
 
   // test setup
+  pdaObject.status = RUNNING;
+  pdaObject.originalInputString = "aba";
+  //path 1 stack
+  std::stack<char> stack1;
+  stack1.push('Z');
+  stack1.push('X');
+  //path 2 stack
+  std::stack<char> stack2;
+  stack2.push('Z');
+  pdaObject.branchList = { Branch(1, "s0", "ba", stack1, 1, "s0->s0"), Branch(2, "s1", "ba", stack2, 1, "s0->s1")};
+  pdaObject.totalTransitions = 1;
+
+  std::string expectedOutput = "PATH 1\n2. (s0, a, YXZ)\n\nPATH 3\n2. (s1, a, XZ)\n\n";
+  //std::stack<char> stack3 = stack1;
+  //stack1.push('Y');
+  //std::list<Branch> expectedBranchList = { Branch(1, "s0", "a", stack1, 2, "s0->s0->s0"), Branch(2, "s1", "ba", stack2, 1, "s0->s1"), Branch(3, "s1", "a", stack3, 2, "s0->s0->s1")};
 
   //test
+  pdaRun(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.status, RUNNING);
+  EXPECT_EQ(pdaObject.totalTransitions, 2);
+  //EXPECT_EQ(pdaObject.branchList, expectedBranchList);
 
   // revert any changes to PDA
   setupPDA();
 }
 
-/* Run4: rejected string */
+/* Run4: accepted string */
 TEST(Run, run4)
 {
   // input and output streams
@@ -413,14 +485,43 @@ TEST(Run, run4)
   std::stringstream output;
 
   // test setup
+  pdaObject.status = RUNNING;
+  pdaObject.originalInputString = "aba";
+  //path 1 stack
+  std::stack<char> stack1;
+  stack1.push('Z');
+  stack1.push('X');
+  stack1.push('Y');
+  stack1.push('X');
+  //path 2 stack
+  std::stack<char> stack2;
+  stack2.push('Z');
+  //path 3 stack
+  std::stack<char> stack3;
+  stack3.push('Z');
+  //path 4 stack
+  std::stack<char> stack4;
+  stack4.push('Z');
+  stack4.push('X');
+  stack4.push('Y');
+  pdaObject.branchList = { Branch(1, "s0", "\\", stack1, 3, "s0->s0->s0->s0"), Branch(2, "s1", "ba", stack2, 1, "s0->s1"), Branch(3, "s1", "\\", stack3, 3, "s0->s0->s1->s1"), Branch(4, "s1", "\\", stack4, 3, "s0->s0->s0->s1")};
+  pdaObject.totalTransitions = 3;
+
+  std::string expectedOutput = "PATH 3\n4. (s2, \\, \\)\nInput string aba accepted in 4 transitions!\n\n";
 
   //test
+  pdaRun(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.status, NOT_RUNNING);
+  EXPECT_EQ(pdaObject.totalTransitions, 4);
+  EXPECT_EQ(pdaObject.accepted, true);
+  EXPECT_EQ(pdaObject.rejected, false);
 
   // revert any changes to PDA
   setupPDA();
 }
 
-/* Run5: pda is not open */
+/* Run5: rejected string */
 TEST(Run, run5)
 {
   // input and output streams
@@ -428,8 +529,51 @@ TEST(Run, run5)
   std::stringstream output;
 
   // test setup
+  pdaObject.status = RUNNING;
+  pdaObject.originalInputString = "ab";
+  //path 1 stack
+  std::stack<char> stack1;
+  stack1.push('Z');
+  stack1.push('X');
+  stack1.push('Y');
+  //path 2 stack
+  std::stack<char> stack2;
+  stack2.push('Z');
+  //path 3 stack
+  std::stack<char> stack3;
+  stack3.push('Z');
+  stack3.push('X');
+  pdaObject.branchList = { Branch(1, "s0", "\\", stack1, 2, "s0->s0->s0"), Branch(2, "s1", "b", stack2, 1, "s0->s1"), Branch(3, "s1", "\\", stack3, 2, "s0->s0->s1") };
+  pdaObject.totalTransitions = 2;
+
+  std::string expectedOutput = "Input string ab rejected in 2 transitions!\n\n";
 
   //test
+  pdaRun(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.status, NOT_RUNNING);
+  EXPECT_EQ(pdaObject.totalTransitions, 2);
+  EXPECT_EQ(pdaObject.accepted, false);
+  EXPECT_EQ(pdaObject.rejected, true);
+
+  // revert any changes to PDA
+  setupPDA();
+}
+
+/* Run6: pda is not open */
+TEST(Run, run6)
+{
+  // input and output streams
+  std::stringstream input;
+  std::stringstream output;
+
+  // test setup
+  pdaObject.open = false;
+  std::string expectedOutput = "No PDA is open to run!\n\n";
+
+  //test
+  pdaRun(output, input);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
