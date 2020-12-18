@@ -224,9 +224,21 @@ TEST(Help, help)
   std::stringstream output;
 
   // test setup
-
+  std::string expectedOutput ="|C|lose             Close pushdown automaton\n";
+  expectedOutput+="Dis|p|lay           Display complete paths through pushdown automaton\n";
+  expectedOutput+="E|x|it              Exit application\n";
+  expectedOutput+="|H|elp              Help user\n";
+  expectedOutput+="|I|nsert            Insert input string into list\n";
+  expectedOutput+="|L|ist              List input strings\n";
+  expectedOutput+="|O|pen              Open pushdown automaton\n";
+  expectedOutput+="|Q|uit              Quit operation of pushdown automation on input string\n";
+  expectedOutput+="|R|un               Run pushdown automaton on input string\n";
+  expectedOutput+="S|e|t               Set maximum number of transitions to perform\n";
+  expectedOutput+="Sho|w|              Show status of application\n";
+  expectedOutput+="|V|iew              View pushdown automaton\n\n";
   //test
-
+  pdaHelp(output);
+  EXPECT_EQ(output.str(), expectedOutput);
   // revert any changes to PDA
   setupPDA();
 }
