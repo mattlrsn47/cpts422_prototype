@@ -735,8 +735,11 @@ TEST(Show, show1)
   std::stringstream output;
 
   // test setup
+  std::string expectedOutput = "Course:\t\tCpts 422\nSemester:\tFall\nYear:\t\t2020\nInstructor:\tLuis DeLatorre\nAuthors:\tMatt L. Thomas D. Jacob S. Becca H.\nVersion:\tFinal v1\n(CFG)Transitions Allowed:\t1\n(CFG)Maximum Characters:\t32\nPushdown Automaton Name:\tTest\nPushdown Automaton Status:\tHas not been run.\nInput Strings Status:\t\tNo changes made\n\n";
 
   //test
+  pdaShow(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -749,8 +752,14 @@ TEST(Show, show2)
   std::stringstream output;
 
   // test setup
+  pdaObject.status = RUNNING;
+  pdaObject.originalInputString = "aba";
+  pdaObject.totalTransitions = 2;
+  std::string expectedOutput = "Course:\t\tCpts 422\nSemester:\tFall\nYear:\t\t2020\nInstructor:\tLuis DeLatorre\nAuthors:\tMatt L. Thomas D. Jacob S. Becca H.\nVersion:\tFinal v1\n(CFG)Transitions Allowed:\t1\n(CFG)Maximum Characters:\t32\nPushdown Automaton Name:\tTest\nPushdown Automaton Status:\tCurrently running.\n\tInput string:\t\taba\n\tNumber of transitions:\t2\nInput Strings Status:\t\tNo changes made\n\n";
 
   //test
+  pdaShow(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -763,8 +772,15 @@ TEST(Show, show3)
   std::stringstream output;
 
   // test setup
+  pdaObject.status = NOT_RUNNING;
+  pdaObject.originalInputString = "aba";
+  pdaObject.totalTransitions = 4;
+  pdaObject.accepted = true;
+  std::string expectedOutput = "Course:\t\tCpts 422\nSemester:\tFall\nYear:\t\t2020\nInstructor:\tLuis DeLatorre\nAuthors:\tMatt L. Thomas D. Jacob S. Becca H.\nVersion:\tFinal v1\n(CFG)Transitions Allowed:\t1\n(CFG)Maximum Characters:\t32\nPushdown Automaton Name:\tTest\nPushdown Automaton Status:\tCompleted operation.\n\tInput string:\t\taba\n\tNumber of transitions:\t4\n\tResult:\t\t\tAccepted\nInput Strings Status:\t\tNo changes made\n\n";
 
   //test
+  pdaShow(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
@@ -777,8 +793,12 @@ TEST(Show, show4)
   std::stringstream output;
 
   // test setup
+  pdaObject.open = false;
+  std::string expectedOutput = "No PDA is open to show!\n\n";
 
   //test
+  pdaShow(output);
+  EXPECT_EQ(output.str(), expectedOutput);
 
   // revert any changes to PDA
   setupPDA();
