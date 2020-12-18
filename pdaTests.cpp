@@ -7,7 +7,7 @@ PdaObject pdaObject;
 void pdaInsert(std::ostream &output, std::istream &input);
 void pdaClose(std::ostream &output);
 void pdaDisplay(std::ostream &output);
-//void pdaExit(std::ostream &output); exit() stops test, leave out for now
+void pdaExit(std::ostream &output); //exit() stops test, leave out for now
 void pdaHelp(std::ostream &output);
 void pdaList(std::ostream &output);
 void pdaOpen(std::ostream &output, std::istream &input);
@@ -58,6 +58,23 @@ void setupPDA()
   pdaObject.totalTransitions = 0;
 }
 
+/* Exit */
+TEST(Exit, exit1)
+{
+  // input and output streams
+  std::stringstream output;
+
+  // test setup
+  pdaObject.open = false;
+  std::string expectedOutput = "Successfully exited application\n\n";
+
+  // test
+  EXPECT_EXIT(pdaExit(output), testing::ExitedWithCode(0), "Success");
+
+  // restore any changes to PDA
+  setupPDA();
+}
+
 /* Insert1: string successfully add to list */
 TEST(Insert, insert1)
 {
@@ -78,7 +95,7 @@ TEST(Insert, insert1)
   EXPECT_EQ(pdaObject.inputStringList, expectedStringList);
   EXPECT_EQ(pdaObject.stringListChanged, true);
   
-  // revert any changesto PDA
+  // revert any changes to PDA
   setupPDA();
 }
 

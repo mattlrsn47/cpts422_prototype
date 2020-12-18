@@ -75,6 +75,7 @@ void pdaExit(std::ostream &output){
         pdaClose(output);
     }
     output << ("Successfully exited application\n\n");
+    std::cerr << "Success";
     exit(0);
     return;
 }
