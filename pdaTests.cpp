@@ -190,6 +190,7 @@ TEST(Close, close1)
   //test
   pdaClose(output);
   EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.open, false);
 
   // revert any changes to PDA
   setupPDA();
@@ -209,6 +210,7 @@ TEST(Close, close2)
   //test
   pdaClose(output);
   EXPECT_EQ(output.str(), expectedOutput);
+  EXPECT_EQ(pdaObject.open, false);
 
   // revert any changes to PDA
   setupPDA();
